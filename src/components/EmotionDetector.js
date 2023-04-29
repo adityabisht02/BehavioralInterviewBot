@@ -1,44 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
-import * as tf from '@tensorflow/tfjs';
-import * as tmImage from '@teachablemachine/image';
+import React, { useEffect, useRef } from 'react';
+import * as faceapi from '@vladmandic/face-api';
 
 export const EmotionDetector = () => {
-  const [model, setModel] = useState(null);
-  const [emoji, setEmoji] = useState('');
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    const loadModel = async () => {
-      const URL = 'https://teachablemachine.withgoogle.com/models/2iJbWQSco/';
-      const modelURL = `${URL}model.json`;
-      const metadataURL = `${URL}metadata.json`;
-      const loadedModel = await tmImage.load(modelURL, metadataURL);
-      setModel(loadedModel);
+    const loadModels = async () => {
+      await faceapi.loadSsdMobilenetv1Model('/');
+      await faceapi.loadFaceExpressionModel('/');
     };
-    loadModel();
+    loadModels();
   }, []);
 
-  useEffect(() => {
-    const detectEmotion = async () => {
-      if (model && videoRef.current && canvasRef.current) {
-        const image = tf.browser.fromPixels(videoRef.current);
-        const predictions = await model.predict(image.expandDims(0)).data();
-        const topPredictionIndex = predictions.indexOf(Math.max(...predictions));
-        const emojis = ['😠', '😞', '😐', '😊', '😍'];
-        setEmoji(emojis[topPredictionIndex]);
-      }
-      requestAnimationFrame(detectEmotion);
-    };
-    detectEmotion();
-  }, [model]);
+  const detectEmotions = async () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const displaySize = { width: video.width, height: video.height };
+    faceapi.matchDimensions(canvas, displaySize);
+
+    setInterval(async () => {
+      const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options()).withFaceExpressions();
+      const resizedDetections = faceapi.resizeResults(detections, displaySize);
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      faceapi.draw.drawDetections(canvas, resizedDetections);
+      faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+    }, 100);
+  };
 
   return (
     <div>
-      <video ref={videoRef} autoPlay muted />
-      <canvas ref={canvasRef} width={300} height={300} style={{ display: 'none' }} />
-      <h1>{emoji}</h1>
+      <video ref={videoRef} width="720" height="560" autoPlay muted></video>
+      <canvas ref={canvasRef} width="720" height="560"></canvas>
+      <button onClick={detectEmotions}>Detect Emotions</button>
     </div>
   );
 };
-

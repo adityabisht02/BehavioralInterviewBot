@@ -9,7 +9,7 @@ const Message = (props) => {
         <img
           src={robotimg}
           className="flex items-center justify-center h-10 w-10 rounded-full flex-shrink-0"
-        ></img>
+        alt=""></img>
         <div className="relative ml-3 text-sm bg-slate-700 font-bold text-white p-5 shadow rounded-xl">
           <div>{props.message}</div>
         </div>
