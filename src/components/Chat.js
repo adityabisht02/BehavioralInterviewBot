@@ -4,7 +4,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone, faStopCircle } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone, faPlay, faReply, faStopCircle } from "@fortawesome/free-solid-svg-icons";
 import "./Chat.css";
 
 const Chat = () => {
@@ -55,7 +55,7 @@ const Chat = () => {
                     onClick={() => setListening(true)}
                     disabled={listening}
                   >
-                    Start
+                    <FontAwesomeIcon icon={faPlay} size="1x" />
                   </button>
                   <button
                     className="btn btn-danger"
@@ -68,7 +68,7 @@ const Chat = () => {
                     className="btn btn-secondary"
                     onClick={resetTranscript}
                   >
-                    Reset
+                    <FontAwesomeIcon icon={faReply} size="1x"/>
                   </button>
                 </div>
               </div>
