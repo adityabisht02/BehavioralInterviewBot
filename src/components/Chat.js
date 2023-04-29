@@ -6,12 +6,11 @@ import SpeechRecognition, {
 console.log(SpeechRecognition);
 
 const Chat = () => {
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  const [listening, setListening] = useState(false);
+  const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
+    useSpeechRecognition({
+      transcriptionOnEnd: false, // disable automatic stopping
+    });
   //state to store questions and their responses
   const [quesresponse, setresponse] = useState([
     {
@@ -23,6 +22,14 @@ const Chat = () => {
   ]);
   //keep track of question number
   const [questionIndex, setQuestionIndex] = useState(0);
+
+  useEffect(() => {
+    if (listening) {
+      SpeechRecognition.startListening({ continuous: true }); // start listening continuously
+    } else {
+      SpeechRecognition.stopListening(); // stop listening
+    }
+  }, [listening]);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -48,14 +55,14 @@ const Chat = () => {
                   <p>Microphone: {listening ? "on" : "off"}</p>
 
                   <button
-                    className="p-2 bg-slate-600  hover:bg-slate-500 text-white m-2 "
-                    onClick={SpeechRecognition.startListening}
+                    className="p-1 bg-slate-600  hover:bg-slate-500 m-2"
+                    onClick={() => setListening(true)}
                   >
                     Speak
                   </button>
                   <button
-                    className="p-2 bg-slate-600  hover:bg-slate-500 w-1/4 text-white m-2"
-                    onClick={SpeechRecognition.stopListening}
+                    className="p-1 bg-slate-600  hover:bg-slate-500 m-2"
+                    onClick={() => setListening(false)}
                   >
                     Stop speaking
                   </button>

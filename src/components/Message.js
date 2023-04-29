@@ -1,6 +1,6 @@
 import React from "react";
 import robotimg from "../images/robot.png";
-const Message = (message) => {
+const Message = ({ message }) => {
   console.log(message);
   return (
     <div className="col-start-1 col-end-8 p-3 rounded-lg">
