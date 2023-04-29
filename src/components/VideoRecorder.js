@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import './VideoRecorder.css';
 
-const VideoRecorder = () => {
+export const VideoRecorder = () => {
   const webcamRef = useRef(null);
   const [recording, setRecording] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
@@ -64,4 +64,3 @@ const VideoRecorder = () => {
   );
 };
 
-export default VideoRecorder;
