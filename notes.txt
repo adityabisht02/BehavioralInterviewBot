@@ -1,0 +1,4 @@
+1. Make some question banks in mongodb for questions.
+2. Implement voice to text
+3. Generate report based on all responses at the end
+4. chat UI
