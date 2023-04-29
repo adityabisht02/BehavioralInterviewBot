@@ -39,7 +39,10 @@ const Chat = () => {
                 <div className="grid grid-cols-12 gap-y-2">
                   <Message />
                   <Message />
-                  <div className="microphone-status">
+                  <div className="chat-balloon relative col-span-10">
+                    <p className="absolute bottom-2 left-2">{transcript}</p>
+                  </div>
+                  <div className="microphone-status col-span-2 flex items-center justify-center">
                     <FontAwesomeIcon
                       icon={faMicrophone}
                       size="2x"
@@ -67,8 +70,6 @@ const Chat = () => {
                   >
                     Reset
                   </button>
-                  <p>{transcript} hello</p>
-                  {console.log(transcript)}
                 </div>
               </div>
             </div>
@@ -78,7 +79,5 @@ const Chat = () => {
     </div>
   );
 };
-
-
 
 export default Chat;
