@@ -12,9 +12,7 @@ const Message = ({ message }) => {
         ></img>
         <div className="relative ml-3 text-sm bg-gradient-to-r from-blue-500 to-purple-500 text-white p-5 shadow rounded-xl">
           <div>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel ipsa
-            commodi illum saepe numquam maxime asperiores voluptate sit, minima
-            perspiciatis.
+            Hey I am your buddy CareerBot
           </div>
         </div>
       </div>
