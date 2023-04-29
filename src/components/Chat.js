@@ -6,13 +6,22 @@ import SpeechRecognition, {
 console.log(SpeechRecognition);
 
 const Chat = () => {
+  const [listening, setListening] = useState(false);
   const {
     transcript,
-    listening,
     resetTranscript,
     browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
-  console.log(listening);
+  } = useSpeechRecognition({
+    transcriptionOnEnd: false, // disable automatic stopping
+  });
+
+  useEffect(() => {
+    if (listening) {
+      SpeechRecognition.startListening({ continuous: true }); // start listening continuously
+    } else {
+      SpeechRecognition.stopListening(); // stop listening
+    }
+  }, [listening]);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -31,13 +40,13 @@ const Chat = () => {
                   <p>Microphone: {listening ? "on" : "off"}</p>
                   <button
                     className="p-1 bg-slate-600  hover:bg-slate-500"
-                    onClick={SpeechRecognition.startListening}
+                    onClick={() => setListening(true)}
                   >
                     Start
                   </button>
                   <button
                     className="p-1 bg-slate-600  hover:bg-slate-500"
-                    onClick={SpeechRecognition.stopListening}
+                    onClick={() => setListening(false)}
                   >
                     Stop
                   </button>
@@ -58,5 +67,6 @@ const Chat = () => {
     </div>
   );
 };
+
 
 export default Chat;
