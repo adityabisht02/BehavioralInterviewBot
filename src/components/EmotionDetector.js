@@ -21,7 +21,7 @@ export const EmotionDetector = () => {
 
   useEffect(() => {
     const detectEmotion = async () => {
-      if (model && videoRef.current) {
+      if (model && videoRef.current && canvasRef.current) {
         const image = tf.browser.fromPixels(videoRef.current);
         const predictions = await model.predict(image.expandDims(0)).data();
         const topPredictionIndex = predictions.indexOf(Math.max(...predictions));
