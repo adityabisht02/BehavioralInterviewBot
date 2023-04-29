@@ -9,7 +9,15 @@ import "./Chat.css";
 
 const Chat = () => {
   const [listening, setListening] = useState(false);
-
+  const behavioralInterviewQuestions = [
+    "Describe a time when you had to work with a difficult team member. How did you handle it?",
+    "Tell me about a time when you had to meet a tight deadline. How did you approach it?",
+    "Describe a situation where you had to solve a complex problem. How did you go about it?",
+    "Describe a situation where you had to adapt to a new and unfamiliar environment.",
+    "Describe a situation where you had to work with a diverse group of people. How did you handle it?",
+    "Describe a situation where you had to work under pressure. How did you handle it?",
+  ];
+  
   const {
     transcript,
     resetTranscript,
