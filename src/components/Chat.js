@@ -9,6 +9,7 @@ import "./Chat.css";
 
 const Chat = () => {
   const [listening, setListening] = useState(false);
+
   const {
     transcript,
     resetTranscript,
@@ -43,27 +44,41 @@ const Chat = () => {
                     <p className="absolute bottom-2 left-2">{transcript}</p>
                   </div>
                   <div className="microphone-status col-span-2 flex items-center justify-center">
-                    <FontAwesomeIcon
-                      icon={faMicrophone}
-                      size="2x"
-                      color={listening ? "#10B981" : "#6B7280"}
-                    />
-                    <p>{listening ? "Listening" : "Not Listening"}</p>
+                    {listening ? (
+                      <div>
+                        <FontAwesomeIcon
+                          icon={faMicrophone}
+                          size="2x"
+                          color="#10B981"
+                        />
+                        <p>Listening</p>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => setListening(false)}
+                          disabled={!listening}
+                        >
+                          <FontAwesomeIcon icon={faStopCircle} size="1x" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div>
+                        <FontAwesomeIcon
+                          icon={faMicrophone}
+                          size="2x"
+                          color="#6B7280"
+                        />
+                        <br/>
+                        <p>Not Listening</p>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => setListening(true)}
+                          disabled={listening}
+                        >
+                          <FontAwesomeIcon icon={faPlay} size="1x" />
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => setListening(true)}
-                    disabled={listening}
-                  >
-                    <FontAwesomeIcon icon={faPlay} size="1x" />
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => setListening(false)}
-                    disabled={!listening}
-                  >
-                    <FontAwesomeIcon icon={faStopCircle} size="1x" />
-                  </button>
                   <button
                     className="btn btn-secondary"
                     onClick={resetTranscript}
