@@ -1,39 +1,57 @@
-.btn {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    cursor: pointer;
-  }
-  
-  .btn-primary {
-    background-color: #10b981;
-    color: #ffffff;
-  }
-  
-  .btn-primary:hover {
-    background-color: #059669;
-  }
-  
-  .btn-secondary {
-    background-color: #6b7280;
-    color: #ffffff;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #4b5563;
-  }
-  
-  .btn-danger {
-    background-color: #ef4444;
-    color: #ffffff;
-  }
-  
-  .btn-danger:hover {
-    background-color: #dc2626;
-  }
-  
-  .microphone-status {
-    display: flex;
-    align-items: center;
-    gap: 0;
-  }  
+/* Chat Balloon */
+.chat-balloon {
+  background-color: #FFF;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+/* Microphone Status */
+.microphone-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Start Button */
+.btn-primary {
+  background-color: #10B981;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #059669;
+}
+
+/* Stop Button */
+.btn-danger {
+  background-color: #EF4444;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #DC2626;
+}
+
+/* Reset Button */
+.btn-secondary {
+  background-color: #6B7280;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #4B5563;
+}
