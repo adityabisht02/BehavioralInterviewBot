@@ -4,31 +4,61 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone, faPlay, faReply, faStopCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMicrophone,
+  faPlay,
+  faReply,
+  faStopCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Chat.css";
 
 const Chat = () => {
   const [listening, setListening] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [messages, setMessages] = useState([]);
 
-  const {
-    transcript,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition({
-    transcriptionOnEnd: false, // disable automatic stopping
-  });
+  const questions = ["What is your name?", "How old are you?", "Where are you from?",];
+
+  const { transcript, resetTranscript } = useSpeechRecognition();
 
   useEffect(() => {
     if (listening) {
-      SpeechRecognition.startListening({ continuous: true }); // start listening continuously
+      SpeechRecognition.startListening({ continuous: true });
     } else {
-      SpeechRecognition.stopListening(); // stop listening
+      SpeechRecognition.stopListening();
     }
   }, [listening]);
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
+  useEffect(() => {
+    if (transcript !== "") {
+      setAnswers((prevAnswers) => [...prevAnswers, transcript]);
+      resetTranscript();
+    }
+  }, [transcript]);
+
+  useEffect(() => {
+    if (currentQuestion === questions.length) {
+      setListening(false);
+      //here we can add the api and update the user's answer and update the messgae
+      setMessages([...messages, { text: "Thank you for your answers!", isUser: false },]);
+    } else if (currentQuestion >= 0) {
+      setMessages([...messages, { text: questions[currentQuestion], isUser: false },
+      ]);
+      setListening(true);
+    }
+  }, [currentQuestion]);
+
+  const handleNextQuestion = () => {
+    setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+    resetTranscript();
+  };
+
+  const handleRestart = () => {
+    setCurrentQuestion(0);
+    setAnswers([]);
+    setMessages([]);
+  };
 
   return (
     <div className="flex h-screen antialiased text-gray-800 w-1/2">
@@ -37,54 +67,58 @@ const Chat = () => {
           <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
             <div className="flex flex-col h-full overflow-x-auto mb-4">
               <div className="flex flex-col h-full">
-                <div className="grid grid-cols-12 gap-y-2">
-                  <Message />
-                  <Message />
+                {messages.map((message, index) => (
+                  <Message key={index} message={message} />
+                ))}
+                {currentQuestion >= 0 && (
                   <div className="chat-balloon relative col-span-10">
                     <p className="absolute bottom-2 left-2">{transcript}</p>
                   </div>
+                )}
+                <div className="grid grid-cols-12 gap-y-2">
                   <div className="microphone-status col-span-2 flex items-center justify-center">
-                    {listening ? (
-                      <div>
-                        <FontAwesomeIcon
-                          icon={faMicrophone}
-                          size="2x"
-                          color="#10B981"
-                        />
-                        <p>Listening</p>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => setListening(false)}
-                          disabled={!listening}
-                        >
-                          <FontAwesomeIcon icon={faStopCircle} size="1x" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div>
-                        <FontAwesomeIcon
-                          icon={faMicrophone}
-                          size="2x"
-                          color="#6B7280"
-                        />
-                        <br/>
-                        <p>Not Listening</p>
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => setListening(true)}
-                          disabled={listening}
-                        >
-                          <FontAwesomeIcon icon={faPlay} size="1x" />
-                        </button>
-                      </div>
-                    )}
+                    <FontAwesomeIcon
+                      icon={faMicrophone}
+                      className={`${listening ? "text-red-500" : "text-gray-400"} text-3xl cursor-pointer`}
+                      onClick={() => setListening(!listening)}
+                    />
                   </div>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={resetTranscript}
-                  >
-                    <FontAwesomeIcon icon={faReply} size="1x"/>
-                  </button>
+                  {currentQuestion >= 0 && (
+                    <div className="col-span-6">
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font -semibold py-2 px-4 rounded-full"
+                        onClick={handleNextQuestion}
+                      >
+                        <FontAwesomeIcon icon={faPlay} className="mr-2" />
+                        Next
+                      </button>
+                    </div>
+                  )}
+                  {currentQuestion === questions.length && (
+                    <div className="col-span-6">
+                      <button
+                        className="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full"
+                        onClick={handleRestart}
+                      >
+                        <FontAwesomeIcon icon={faReply} className="mr-2" />
+                        Restart
+                      </button>
+                    </div>
+                  )}
+                  {currentQuestion >= 0 && (
+                    <div className="col-span-4">
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full"
+                        onClick={() => {
+                          setListening(false);
+                          resetTranscript();
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faStopCircle} className="mr-2" />
+                        Stop
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
