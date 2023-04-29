@@ -1,6 +1,7 @@
 import React from "react";
 import Chat from "./Chat";
 import Message from "./Message";
+import { EmotionDetector } from "./EmotionDetector";
 const { Configuration, OpenAIApi } = require("openai");
 
 function Home() {
@@ -24,7 +25,7 @@ function Home() {
   return (
     <div className="flex flex-row ">
       <div className="w-1/2">
-        <button onClick={getFeedback}>Click me</button>hi
+      <EmotionDetector/>
       </div>
       <Chat />
     </div>
