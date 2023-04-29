@@ -1,9 +1,11 @@
-import { useEffect, useState, React } from "react";
+import { useEffect, useState } from "react";
 import Message from "./Message";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-console.log(SpeechRecognition);
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone, faStopCircle } from "@fortawesome/free-solid-svg-icons";
+import "./Chat.css";
 
 const Chat = () => {
   const [listening, setListening] = useState(false);
@@ -37,21 +39,30 @@ const Chat = () => {
                 <div className="grid grid-cols-12 gap-y-2">
                   <Message />
                   <Message />
-                  <p>Microphone: {listening ? "on" : "off"}</p>
+                  <div className="microphone-status">
+                    <FontAwesomeIcon
+                      icon={faMicrophone}
+                      size="2x"
+                      color={listening ? "#10B981" : "#6B7280"}
+                    />
+                    <p>{listening ? "Listening" : "Not Listening"}</p>
+                  </div>
                   <button
-                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    className="btn btn-primary"
                     onClick={() => setListening(true)}
+                    disabled={listening}
                   >
                     Start
                   </button>
                   <button
-                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    className="btn btn-danger"
                     onClick={() => setListening(false)}
+                    disabled={!listening}
                   >
-                    Stop
+                    <FontAwesomeIcon icon={faStopCircle} size="1x" />
                   </button>
                   <button
-                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    className="btn btn-secondary"
                     onClick={resetTranscript}
                   >
                     Reset
@@ -67,6 +78,7 @@ const Chat = () => {
     </div>
   );
 };
+
 
 
 export default Chat;

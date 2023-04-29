@@ -1,0 +1,39 @@
+.btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #10b981;
+    color: #ffffff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #059669;
+  }
+  
+  .btn-secondary {
+    background-color: #6b7280;
+    color: #ffffff;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+  
+  .btn-danger {
+    background-color: #ef4444;
+    color: #ffffff;
+  }
+  
+  .btn-danger:hover {
+    background-color: #dc2626;
+  }
+  
+  .microphone-status {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }  
