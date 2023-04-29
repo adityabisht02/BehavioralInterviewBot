@@ -1,12 +1,25 @@
-import React from "react";
+import { useEffect, useState, React } from "react";
 import Message from "./Message";
-import { useEffect, useRef, useState } from "react";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+console.log(SpeechRecognition);
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+  console.log(listening);
+
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
 
   return (
-    <div className="flex h-screen antialiased text-gray-800">
+    <div className="flex h-screen antialiased text-gray-800 w-1/2">
       <div className="flex flex-row h-full w-full overflow-x-hidden">
         <div className="flex flex-col flex-auto h-full p-6">
           <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
@@ -15,8 +28,27 @@ const Chat = () => {
                 <div className="grid grid-cols-12 gap-y-2">
                   <Message />
                   <Message />
-                  <Message />
-                  <Message />
+                  <p>Microphone: {listening ? "on" : "off"}</p>
+                  <button
+                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    onClick={SpeechRecognition.startListening}
+                  >
+                    Start
+                  </button>
+                  <button
+                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    onClick={SpeechRecognition.stopListening}
+                  >
+                    Stop
+                  </button>
+                  <button
+                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    onClick={resetTranscript}
+                  >
+                    Reset
+                  </button>
+                  <p>{transcript} hello</p>
+                  {console.log(transcript)}
                 </div>
               </div>
             </div>
