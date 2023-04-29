@@ -73,15 +73,17 @@ const Chat = () => {
     console.log(response.data.choices[0].text);
   }
   function nextQuestion(transcript) {
-    if (questionIndex == 2) {
-      return;
-    }
     //set user response
     var arr = quesresponse;
     arr[questionIndex].response = transcript;
     setresponse(arr);
-    console.log(quesresponse[0].response);
+    if (questionIndex == 2) {
+      return;
+    }
     setQuestionIndex(questionIndex + 1);
+  }
+  function printresp() {
+    console.log(quesresponse);
   }
 
   return (
@@ -143,8 +145,15 @@ const Chat = () => {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    onClick={() => nextQuestion(transcript)}
+                    onClick={() => {
+                      nextQuestion(transcript);
+                      resetTranscript(); //reset transcript after setting it
+                    }}
                   >
+                    <FontAwesomeIcon icon={faReply} size="1x" />
+                  </button>
+
+                  <button className="btn btn-secondary" onClick={printresp}>
                     <FontAwesomeIcon icon={faReply} size="1x" />
                   </button>
                 </div>
