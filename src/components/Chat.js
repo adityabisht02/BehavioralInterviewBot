@@ -12,10 +12,25 @@ const Chat = () => {
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
-  console.log(listening);
+  //state to store questions and their responses
+  const [quesresponse, setresponse] = useState([
+    {
+      question:
+        "Can u talk about a time where u had to do something in a very short deadline.",
+      response: "",
+      feedback: "",
+    },
+  ]);
+  //keep track of question number
+  const [questionIndex, setQuestionIndex] = useState(0);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
+  }
+
+  function askNextQuestion() {
+    var arr = quesresponse;
+    console.log(arr);
   }
 
   return (
@@ -24,32 +39,35 @@ const Chat = () => {
         <div className="flex flex-col flex-auto h-full p-6">
           <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
             <div className="flex flex-col h-full overflow-x-auto mb-4">
-              <div className="flex flex-col h-full">
-                <div className="grid grid-cols-12 gap-y-2">
+              <div className="flex flex-col h-full  justify-between">
+                {/* <div className="grid grid-cols-12 gap-y-2"> */}
+                <div className="container">
                   <Message />
-                  <Message />
+                </div>
+                <div className="flex flex-row m-auto text-md text-white">
                   <p>Microphone: {listening ? "on" : "off"}</p>
+
                   <button
-                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    className="p-2 bg-slate-600  hover:bg-slate-500 text-white m-2 "
                     onClick={SpeechRecognition.startListening}
                   >
-                    Start
+                    Speak
                   </button>
                   <button
-                    className="p-1 bg-slate-600  hover:bg-slate-500"
+                    className="p-2 bg-slate-600  hover:bg-slate-500 w-1/4 text-white m-2"
                     onClick={SpeechRecognition.stopListening}
                   >
-                    Stop
+                    Stop speaking
                   </button>
                   <button
-                    className="p-1 bg-slate-600  hover:bg-slate-500"
-                    onClick={resetTranscript}
+                    className="p-2 bg-slate-600  hover:bg-slate-500 w-1/4 m-2"
+                    onClick={askNextQuestion}
                   >
-                    Reset
+                    Next question
                   </button>
-                  <p>{transcript} hello</p>
-                  {console.log(transcript)}
                 </div>
+                <p>{transcript} hello</p>
+                {console.log(transcript)}
               </div>
             </div>
           </div>

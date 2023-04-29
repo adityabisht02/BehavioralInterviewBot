@@ -2,3 +2,7 @@
 2. Implement voice to text
 3. Generate report based on all responses at the end
 4. chat UI
+
+1. How to prompt gpt
+2. Questionnaire
+3. 
