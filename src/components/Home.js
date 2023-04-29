@@ -1,7 +1,8 @@
 import React from "react";
-
+import Chat from "./Chat";
+import Message from "./Message";
 function Home() {
-  return <div>Home</div>;
+  return <Chat />;
 }
 
 export default Home;
