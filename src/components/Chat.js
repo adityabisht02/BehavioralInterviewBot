@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Message from "./Message";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -61,21 +62,40 @@ const Chat = () => {
   });
 
   const openai = new OpenAIApi(configuration);
-  var introprompt =
-    "A candidate is practicing for his behavioral interview for software engineering. I will give you the question asked and his response. Please evaluate his response in detail. \n\nQ1. Can you talk about a time where you had to do something in a very short deadline? \n\nResponse: I had to maintain an open source android app, so I had to learn about fragments, API integration, etc. in a short time. \n\nFeedback: Please provide negative feedback on the candidate's eagerness to learn, optimism, willingness to collaborate with others, and technical confidence based on their response to the above question.";
-  async function getFeedback() {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: introprompt,
-      temperature: 0.5,
-      max_tokens: 100,
-    });
-    console.log(response.data.choices[0].text);
+
+  async function getFeedback(question, answer) {
+    var introprompt =
+      "Please evaluate the candidate's response in detail. " +
+      "Please provide negative feedback on the candidate's eagerness to learn, optimism, willingness to collaborate with others, and technical confidence based on their responses to the questions. " +
+      "Question: " +
+      question +
+      "\n" +
+      "Response: " +
+      answer +
+      "\n";
+    try {
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: introprompt,
+        temperature: 0.5,
+        max_tokens: 100,
+      });
+      return response.data.choices[0].text;
+    } catch (error) {
+      console.log(error);
+    }
   }
   function nextQuestion(transcript) {
     //set user response
     var arr = quesresponse;
     arr[questionIndex].response = transcript;
+    //get feedback from gpt
+    var feedback = getFeedback(
+      arr[questionIndex].question,
+      arr[questionIndex].response
+    );
+    //set feedback
+    arr[questionIndex].feedback = feedback;
     setresponse(arr);
     if (questionIndex == 2) {
       return;
@@ -96,7 +116,6 @@ const Chat = () => {
                 {/* <div className="grid grid-cols-12 gap-y-2"> */}
                 <div className="container">
                   <Message message="Welcome to your behavioral Interview!! U will be given 3 questions to get an idea of your technical experience, optimism and eagerness to learn. Click on next question to move to the next question and the play and stop buttons to speak your response." />
-
                   <Message message={quesresponse[questionIndex].question} />
                   <div className="chat-balloon relative col-span-10">
                     <p className="absolute bottom-2 left-2">{transcript}</p>
@@ -150,12 +169,26 @@ const Chat = () => {
                       resetTranscript(); //reset transcript after setting it
                     }}
                   >
-                    <FontAwesomeIcon icon={faReply} size="1x" />
+                    Submit and Next question
                   </button>
-
                   <button className="btn btn-secondary" onClick={printresp}>
-                    <FontAwesomeIcon icon={faReply} size="1x" />
+                    Log Array
                   </button>
+                  <Link
+                    to={{
+                      pathname: "/report",
+                    }}
+                    state={quesresponse}
+                  >
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        console.log(quesresponse[0]);
+                      }}
+                    >
+                      Generate Report
+                    </button>
+                  </Link>
                 </div>
                 <p>{transcript} hello</p>
               </div>
