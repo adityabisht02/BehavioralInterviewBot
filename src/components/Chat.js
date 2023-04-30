@@ -45,9 +45,8 @@ const Chat = () => {
     {
       question:
         "Can u talk about a time where u had to do something in a very short deadline? How did u manage the pressure?",
-      response:
-        "I worked on an android app, I had to learn android development in a very short time.",
-      feedback: "Candidate does not know shit",
+      response: "",
+      feedback: "",
     },
     {
       question:
@@ -123,7 +122,7 @@ const Chat = () => {
     setQuestionIndex(questionIndex + 1);
   }
   function printresp() {
-    console.log(quesresponse);
+    return console.log(quesresponse);
   }
 
   return (
@@ -214,17 +213,16 @@ const Chat = () => {
                         Log Array <FontAwesomeIcon icon={faNoteSticky} />
                       </button>
                       <Link
-                        to={{
-                          pathname: "/report",
+                        to="/report"
+                        onClick={() => {
+                          localStorage.setItem(
+                            "quesresponse",
+                            JSON.stringify(quesresponse)
+                          );
+                          console.log(JSON.stringify(quesresponse));
                         }}
-                        state={quesresponse}
                       >
-                        <button
-                          className="btn btn-secondary"
-                          onClick={() => {
-                            console.log(quesresponse[0]);
-                          }}
-                        >
+                        <button className="btn btn-secondary">
                           Generate Report
                         </button>
                       </Link>
