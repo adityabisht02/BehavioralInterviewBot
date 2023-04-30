@@ -25,7 +25,7 @@ const Chat = () => {
     useSpeechRecognition({
       transcriptionOnEnd: false, // disable automatic stopping
     });
-    const pulse = keyframes`
+  const pulse = keyframes`
   0% {
     transform: scale(1);
   }
@@ -36,9 +36,9 @@ const Chat = () => {
     transform: scale(1);
   }
 `;
-const MicrophoneIcon = styled(FontAwesomeIcon)`
-animation: ${pulse} 1s ease-in-out infinite;
-`;
+  const MicrophoneIcon = styled(FontAwesomeIcon)`
+    animation: ${pulse} 1s ease-in-out infinite;
+  `;
 
   //state to store questions and their responses
   const [quesresponse, setresponse] = useState([
@@ -61,7 +61,7 @@ animation: ${pulse} 1s ease-in-out infinite;
     },
   ]);
   //keep track of question number
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const [questionIndex, setQuestionIndex] = useState(-1);
 
   useEffect(() => {
     if (listening) {
@@ -77,7 +77,7 @@ animation: ${pulse} 1s ease-in-out infinite;
   const OPENAI_API_KEY = "343434";
   //openAI configuration
   const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
   });
 
   const openai = new OpenAIApi(configuration);
@@ -131,86 +131,105 @@ animation: ${pulse} 1s ease-in-out infinite;
         <div className="flex flex-col flex-auto h-full p-6">
           <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
             <div className="flex flex-col h-full overflow-x-auto mb-4">
-              <div className="flex flex-col h-full  justify-between">
+              <div className="flex flex-col h-full  justify-between overflow-scroll">
                 {/* <div className="grid grid-cols-12 gap-y-2"> */}
                 <div className="container">
                   <Message message="Welcome to your behavioral Interview!! U will be given 3 questions to get an idea of your technical experience, optimism and eagerness to learn. Click on next question to move to the next question and the play and stop buttons to speak your response." />
-                  <Message message={quesresponse[questionIndex].question} />
-                  <div className="chat-balloon relative col-span-10">
-                    <p className="absolute bottom-2 left-2">{transcript}</p>
-                  </div>
-                  <div className="microphone-status col-span-2 flex items-center justify-center">
-                    {listening ? (
-                      <div>
-                        {/* <FontAwesomeIcon
+
+                  {questionIndex == -1 ? (
+                    <button
+                      className="btn btn-secondary m-auto p-5 font-normal"
+                      onClick={() => {
+                        setQuestionIndex(questionIndex + 1);
+                      }}
+                    >
+                      Start your Interview
+                      <FontAwesomeIcon icon={faRightFromBracket} />
+                    </button>
+                  ) : (
+                    <div className="container">
+                      <Message message={quesresponse[questionIndex].question} />
+                      <div className="chat-balloon relative col-span-10 overflow-scroll">
+                        <p className="absolute bottom-2">{transcript}</p>
+                      </div>
+                      <div className="microphone-status col-span-2 flex items-center justify-center">
+                        {listening ? (
+                          <div>
+                            {/* <FontAwesomeIcon
                           icon={faMicrophone}
                           size="2x"
                           color="#10B981"
                         /> */}
-                        <MicrophoneIcon icon={faMicrophone} size="2x" color={listening ? "#10B981" : "#6B7280"} />
-                        <p>Listening</p>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => setListening(false)}
-                          disabled={!listening}
-                        >
-                          <FontAwesomeIcon icon={faStopCircle} size="1x" />
-                        </button>
+                            <MicrophoneIcon
+                              icon={faMicrophone}
+                              size="2x"
+                              color={listening ? "#10B981" : "#6B7280"}
+                            />
+                            <p>Listening</p>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => setListening(false)}
+                              disabled={!listening}
+                            >
+                              <FontAwesomeIcon icon={faStopCircle} size="1x" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div>
+                            <FontAwesomeIcon
+                              icon={faMicrophone}
+                              size="2x"
+                              color="#6B7280"
+                            />
+                            <br />
+                            <p>Not Listening</p>
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => setListening(true)}
+                              disabled={listening}
+                            >
+                              <FontAwesomeIcon icon={faPlay} size="1x" />
+                            </button>
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <div>
-                        <FontAwesomeIcon
-                          icon={faMicrophone}
-                          size="2x"
-                          color="#6B7280"
-                        />
-                        <br />
-                        <p>Not Listening</p>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={resetTranscript}
+                      >
+                        <FontAwesomeIcon icon={faReply} size="1x" />
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          nextQuestion(transcript);
+                          resetTranscript(); //reset transcript after setting it
+                        }}
+                      >
+                        Submit & Next{" "}
+                        <FontAwesomeIcon icon={faRightFromBracket} />
+                      </button>
+                      <button className="btn btn-secondary" onClick={printresp}>
+                        Log Array <FontAwesomeIcon icon={faNoteSticky} />
+                      </button>
+                      <Link
+                        to={{
+                          pathname: "/report",
+                        }}
+                        state={quesresponse}
+                      >
                         <button
-                          className="btn btn-primary"
-                          onClick={() => setListening(true)}
-                          disabled={listening}
+                          className="btn btn-secondary"
+                          onClick={() => {
+                            console.log(quesresponse[0]);
+                          }}
                         >
-                          <FontAwesomeIcon icon={faPlay} size="1x" />
+                          Generate Report
                         </button>
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={resetTranscript}
-                  >
-                    <FontAwesomeIcon icon={faReply} size="1x" />
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      nextQuestion(transcript);
-                      resetTranscript(); //reset transcript after setting it
-                    }}
-                  >
-                    Submit & Next <FontAwesomeIcon icon={faRightFromBracket} />
-                  </button>
-                  <button className="btn btn-secondary" onClick={printresp}>
-                    Log Array <FontAwesomeIcon icon={faNoteSticky} />
-                  </button>
-                  <Link
-                    to={{
-                      pathname: "/report",
-                    }}
-                    state={quesresponse}
-                  >
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        console.log(quesresponse[0]);
-                      }}
-                    >
-                      Generate Report
-                    </button>
-                  </Link>
+                      </Link>
+                    </div>
+                  )}
                 </div>
-                <p>{transcript} hello</p>
               </div>
             </div>
           </div>

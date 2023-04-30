@@ -34,7 +34,7 @@ export const VideoRecorder = () => {
 
   const videoConstraints = {
     width: 1280,
-    height: 720,
+    height: 900,
     facingMode: "user",
   };
 
@@ -46,7 +46,7 @@ export const VideoRecorder = () => {
         ref={webcamRef}
         videoConstraints={videoConstraints}
       />
-      <div className="buttons-container">
+      {/* <div className="buttons-container">
         {recording ? (
           <button
             className="stop-button"
@@ -63,7 +63,7 @@ export const VideoRecorder = () => {
             Start Recording
           </button>
         )}
-      </div>
+      </div> */}
       <video
         className="recorded-video"
         style={{ display: recordedChunks.length > 0 ? "block" : "none" }}
