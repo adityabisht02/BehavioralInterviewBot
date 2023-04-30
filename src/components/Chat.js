@@ -44,9 +44,10 @@ const Chat = () => {
   const [quesresponse, setresponse] = useState([
     {
       question:
-        "Can u talk about a time where u had to do something in a very short deadline?",
-      response: "",
-      feedback: "",
+        "Can u talk about a time where u had to do something in a very short deadline? How did u manage the pressure?",
+      response:
+        "I worked on an android app, I had to learn android development in a very short time.",
+      feedback: "Candidate does not know shit",
     },
     {
       question:
@@ -74,10 +75,10 @@ const Chat = () => {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
-  const OPENAI_API_KEY = "343434";
+  const OPENAI_API_KEY = "1234";
   //openAI configuration
   const configuration = new Configuration({
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+    apiKey: OPENAI_API_KEY,
   });
 
   const openai = new OpenAIApi(configuration);
@@ -134,7 +135,7 @@ const Chat = () => {
               <div className="flex flex-col h-full  justify-between overflow-scroll">
                 {/* <div className="grid grid-cols-12 gap-y-2"> */}
                 <div className="container">
-                  <Message message="Welcome to your behavioral Interview!! U will be given 3 questions to get an idea of your technical experience, optimism and eagerness to learn. Click on next question to move to the next question and the play and stop buttons to speak your response." />
+                  <Message message="Welcome to your behavioral Interview!! U will be given 3 questions to get an idea of your technical experience, optimism and eagerness to learn. Click on next question to move to the next question and the play and stop buttons to speak your response. After you finish your 3 questions, click on the generate report button to generate the feedback report for your responses. Good Luck!!!" />
 
                   {questionIndex == -1 ? (
                     <button
