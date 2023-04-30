@@ -46,7 +46,7 @@ const Chat = () => {
   ]);
   //keep track of question number
   const [questionIndex, setQuestionIndex] = useState(0);
-  
+
   useEffect(() => {
     if (listening) {
       SpeechRecognition.startListening({ continuous: true }); // start listening continuously
@@ -58,10 +58,10 @@ const Chat = () => {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
-  const OPENAI_API_KEY = '343434';
+  const OPENAI_API_KEY = "343434";
   //openAI configuration
   const configuration = new Configuration({
-    apiKey: OPENAI_API_KEY,
+    apiKey: "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",
   });
 
   const openai = new OpenAIApi(configuration);
