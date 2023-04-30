@@ -19,4 +19,9 @@ The user can speak into his mic and answer the questions put forth by interviewb
 <div>
 <img src = "https://user-images.githubusercontent.com/89146189/235352975-0e8c343e-2864-4e31-af12-cb1c01bf5fd8.png" width='700px'/>
 </div>
+<div align="center">
 
+![repo size](https://img.shields.io/github/repo-size/adityabisht02/BehavioralInterviewBot?label=Repo%20Size&style=for-the-badge&labelColor=black&color=20bf6b)
+![GitHub LastCommit](https://img.shields.io/github/last-commit/adityabisht02/BehavioralInterviewBot?logo=github&labelColor=black&color=d1d8e0&style=for-the-badge)
+ <br>
+</div>
