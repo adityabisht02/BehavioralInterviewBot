@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import Webcam from 'react-webcam';
-import './VideoRecorder.css';
+import React, { useRef, useState } from "react";
+import Webcam from "react-webcam";
+import "./VideoRecorder.css";
 
 export const VideoRecorder = () => {
   const webcamRef = useRef(null);
@@ -14,9 +14,12 @@ export const VideoRecorder = () => {
 
   const stopRecording = () => {
     setRecording(false);
-    const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+    const videoBlob = new Blob(recordedChunks, { type: "video/mp4" });
     const videoUrl = URL.createObjectURL(videoBlob);
     setRecordedChunks([]);
+    if (!webcamRef.current || !webcamRef.current.video.readyState === 4) {
+      return;
+    }
     webcamRef.current.stop();
     webcamRef.current.stream.getTracks().forEach((track) => track.stop());
     webcamRef.current.stream.getTracks().forEach((track) => track.stop());
@@ -32,7 +35,7 @@ export const VideoRecorder = () => {
   const videoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: 'user',
+    facingMode: "user",
   };
 
   return (
@@ -45,7 +48,14 @@ export const VideoRecorder = () => {
       />
       <div className="buttons-container">
         {recording ? (
-          <button className="stop-button" onClick={stopRecording}>
+          <button
+            className="stop-button"
+            onClick={() => {
+              if (webcamRef.current) {
+                stopRecording();
+              }
+            }}
+          >
             Stop Recording
           </button>
         ) : (
@@ -56,11 +66,14 @@ export const VideoRecorder = () => {
       </div>
       <video
         className="recorded-video"
-        style={{ display: recordedChunks.length > 0 ? 'block' : 'none' }}
-        src={URL.createObjectURL(new Blob(recordedChunks, { type: 'video/mp4' }))}
+        style={{ display: recordedChunks.length > 0 ? "block" : "none" }}
+        src={URL.createObjectURL(
+          new Blob(recordedChunks, { type: "video/mp4" })
+        )}
         controls
       />
     </div>
   );
 };
 
+export default VideoRecorder;

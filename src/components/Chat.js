@@ -58,7 +58,7 @@ const Chat = () => {
 
   //openAI configuration
   const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: "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",
   });
 
   const openai = new OpenAIApi(configuration);
