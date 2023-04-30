@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+
 import Message from "./Message";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -23,6 +25,20 @@ const Chat = () => {
     useSpeechRecognition({
       transcriptionOnEnd: false, // disable automatic stopping
     });
+    const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+const MicrophoneIcon = styled(FontAwesomeIcon)`
+animation: ${pulse} 1s ease-in-out infinite;
+`;
 
   //state to store questions and their responses
   const [quesresponse, setresponse] = useState([
@@ -126,11 +142,12 @@ const Chat = () => {
                   <div className="microphone-status col-span-2 flex items-center justify-center">
                     {listening ? (
                       <div>
-                        <FontAwesomeIcon
+                        {/* <FontAwesomeIcon
                           icon={faMicrophone}
                           size="2x"
                           color="#10B981"
-                        />
+                        /> */}
+                        <MicrophoneIcon icon={faMicrophone} size="2x" color={listening ? "#10B981" : "#6B7280"} />
                         <p>Listening</p>
                         <button
                           className="btn btn-danger"
