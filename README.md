@@ -1,3 +1,12 @@
+# InterviewBot
+Practising behavioral interviews with peers can be helpful, but are your peers qualified enough to give good feedback for each question? 
+InterviewBot uses the power of gpt models to give helpful feedback for your behavioral interview questions.<br>
+
+The user can speak into his mic and answer the questions put forth by interviewbot.
+
+![gpt1](https://user-images.githubusercontent.com/89146189/235352975-0e8c343e-2864-4e31-af12-cb1c01bf5fd8.png)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
