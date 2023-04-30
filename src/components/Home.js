@@ -1,9 +1,12 @@
 import React from "react";
 import Chat from "./Chat";
 import Message from "./Message";
-const { Configuration, OpenAIApi } = require("openai");
+import { EmotionDetector } from "./EmotionDetector";
+import {VideoRecorder} from './VideoRecorder';
 
 function Home() {
+  const { Configuration, OpenAIApi } = require("openai");
+
   const configuration = new Configuration({
     apiKey: "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",
   });
@@ -24,7 +27,8 @@ function Home() {
   return (
     <div className="flex flex-row ">
       <div className="w-1/2">
-        <button onClick={getFeedback}>Click me</button>hi
+      {/* <VideoRecorder/> */}
+      <EmotionDetector/>
       </div>
       <Chat />
     </div>
