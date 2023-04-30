@@ -6,9 +6,12 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDiagramNext,
   faMicrophone,
+  faNoteSticky,
   faPlay,
   faReply,
+  faRightFromBracket,
   faStopCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Chat.css";
@@ -43,7 +46,7 @@ const Chat = () => {
   ]);
   //keep track of question number
   const [questionIndex, setQuestionIndex] = useState(0);
-
+  
   useEffect(() => {
     if (listening) {
       SpeechRecognition.startListening({ continuous: true }); // start listening continuously
@@ -55,7 +58,7 @@ const Chat = () => {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
-
+  const OPENAI_API_KEY = '343434';
   //openAI configuration
   const configuration = new Configuration({
     apiKey: OPENAI_API_KEY,
@@ -169,10 +172,10 @@ const Chat = () => {
                       resetTranscript(); //reset transcript after setting it
                     }}
                   >
-                    Submit and Next question
+                    Submit & Next <FontAwesomeIcon icon={faRightFromBracket} />
                   </button>
                   <button className="btn btn-secondary" onClick={printresp}>
-                    Log Array
+                    Log Array <FontAwesomeIcon icon={faNoteSticky} />
                   </button>
                   <Link
                     to={{
