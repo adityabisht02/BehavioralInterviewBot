@@ -18,6 +18,9 @@ The user can speak into his mic and answer the questions put forth by interviewb
 </div>
 <div>
 <img src = "https://user-images.githubusercontent.com/89146189/235352975-0e8c343e-2864-4e31-af12-cb1c01bf5fd8.png" width='700px'/>
+<br/>
+<a href = "https://www.figma.com/file/xzwtmMNMqwMC2xTYNKjSuy/BehavioralChatbot?type=design&node-id=0%3A1&t=WINEW7pm6vz7Z17C-1">Figma Prototype</a>
+<br/>
 </div>
 <div align="center">
 
